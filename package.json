@@ -1,11 +1,12 @@
 {
   "name": "super-react",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Opinionated Command Line Tool for Scaffolding out Nested React Components Into Files",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": ["react", "scaffold", "emmet", "cli"]
   "bin": {
     "super-react": "index.js"
   },

@@ -11,19 +11,21 @@ npm install -g super-react
 ##Usage
 
 ```
-super-react "[string]" [--file=<components scaffold>.json] [--output=<path | defaults "./components">]
+super-react "[emmet_string]" [--file=<components_scaffold>.json] [--output=<path>]
 ```
 
 ##Scaffold Components From Emmet Syntax
 
+This tool uses [Emmet](http://docs.emmet.io/abbreviations/syntax/) style syntax for scaffolding out components in a nested fashion. In this early version of this module, all components are dumped into a single folder but, the React component calls the nested children we specify.  
 
 ###Basic Example
 
 ```
 super-react "App>Description+ListContainer>List"
 ```
+The ```>``` denotes a parent component and ```+``` denotes a sibling component.
 
-Results in a folder ```./components``` and has:
+The command results in a folder ```./components``` and has:
 
 ```
 .
