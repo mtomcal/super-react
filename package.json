@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["react", "scaffold", "emmet", "cli"]
+  "keywords": ["react", "scaffold", "emmet", "cli"],
   "bin": {
     "super-react": "index.js"
   },
