@@ -1,0 +1,8 @@
+{
+  "App": {
+    "ListContainer": {
+      "AddItem":{},
+      "List":{}
+    }
+  }
+}
