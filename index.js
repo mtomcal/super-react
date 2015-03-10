@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var Bluebird = require('bluebird');
 
 var fs = require('fs');
@@ -99,4 +100,4 @@ function main(args) {
   });
 }
 
-main(args);
+module.exports = main(args);
