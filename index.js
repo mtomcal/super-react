@@ -18,7 +18,9 @@ Bluebird.promisifyAll(fs);
 var path = require('path');
 var _ = require('lodash');
 
-var args = require('cli-args')(process.argv.slice(2));
+var raw_args = process.argv.slice(2);
+
+var args = require('cli-args')(raw_args);
 
 var output_folder = args.output || './components/';
 
@@ -162,14 +164,20 @@ function main(args) {
       return;
     }
     if (key === '_') {
+      var pos_args = args[key];
 
-      if (_.contains(args[key], "es6")) {
+      if (_.contains(pos_args[key], "es6")) {
         /* Global Settings Object */
         settings['template_type'] = "es6";
       }
-      if (_.isArray(args[key]) && args[key].length > 1) {
-        scaffoldByArgs(_.first(args[key]));
-      }
+
+      pos_args.filter(function (item) {
+        return item !== "es6"
+      })
+      .map(function (item) {
+        scaffoldByArgs(item);
+      });
+
     }
     if (key === 'ext') {
       /* Global Settings Object */
