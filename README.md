@@ -11,7 +11,7 @@ npm install -g super-react
 ##Usage
 
 ```
-super-react "[emmet_string]" [--file=<components_scaffold>.json] [--output=<path>]
+super-react "[emmet_string]" [--file=<components_scaffold>.json] [--output=<path>] [--es6] [--ext=<custom_extension>]
 ```
 
 ##Scaffold Components From Emmet Syntax
@@ -67,9 +67,35 @@ module.exports = App;
 ###Complex Example
 
 ```
-super-react "App>Description+ListContainer>List" --output=./my_components
+super-react "App>Description+ListContainer>List" --output=./my_components --ext=jsx --es6
 ```
-Creates components in ```./my_components```
+Creates components in ```./my_components``` with files with the extension jsx (i.e. ```App.jsx```) and a class with ES6 style JS in the following:
+
+```
+import React from 'react';
+import Description from './Description.jsx'
+import ListContainer from './ListContainer.jsx'
+
+
+let App = React.createClass({
+  mixins : [],
+  propTypes: {
+
+  },
+  render() {
+    var styles = {};
+
+    return (
+      <div>
+        <Description />
+        <ListContainer />
+      </div>
+    );
+  }
+
+});
+export default App;
+```
 
 ##Scaffold Components From JSON File
 
@@ -104,6 +130,12 @@ ListContainer.js
 ```
 
 App has the contents you would expect from the previous section.
+
+##Changelog
+* v0.2.0 Added --es6 and --ext flags
+
+##Roadmap
+* v0.3.0 Add folder/directory scaffolding syntax in addition to React files
 
 ##Contribute?
 
