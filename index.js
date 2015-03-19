@@ -167,8 +167,9 @@ function main(args) {
         /* Global Settings Object */
         settings['template_type'] = "es6";
       }
-
-      scaffoldByArgs(_.first(args[key]));
+      if (_.isArray(args[key]) && args[key].length > 1) {
+        scaffoldByArgs(_.first(args[key]));
+      }
     }
     if (key === 'ext') {
       /* Global Settings Object */
