@@ -22,6 +22,11 @@ var args = require('cli-args')(process.argv.slice(2));
 
 var output_folder = args.output || './components/';
 
+var settings = {
+  "template_type": "es5",
+  "extension": "js"
+};
+
 /**
  * ErrorHandler For Promise Rejects
  */
@@ -37,13 +42,23 @@ function errorHandler(err) {
  */
 function outputReactClass(name, children) {
   var rendered;
+
+  //Don't need js extension in import or require statements in template
+  function extHelper(ext) {
+    if (ext === "js") {
+      return "";
+    } else {
+      return ext;
+    }
+  }
+
   //Open template
-  fs.readFileAsync(path.join(__dirname, 'templates/', 'ReactClass.js'))
+  fs.readFileAsync(path.join(__dirname, 'templates/', 'ReactClass.' + settings["template_type"] + '.js'))
     .then(function (contents){
       var compiled = _.template(contents);
 
       //Compile lodash template for React class
-      rendered = compiled({name: name, children: children});
+      rendered = compiled({name: name, children: children, ext: extHelper(settings["extension"])});
 
       //Create the output folder and if exists silently catch error
       return fs.mkdirAsync(output_folder)
@@ -53,7 +68,7 @@ function outputReactClass(name, children) {
     })
     .then(function () {
       //Write the component to file if it doesnt already exist
-      return fs.writeFileAsync(path.join(output_folder, name + ".js"), rendered, {flag: 'wx'});
+      return fs.writeFileAsync(path.join(output_folder, name + "." + settings["extension"]), rendered, {flag: 'wx'});
     })
     .caught(errorHandler);
 }
@@ -147,7 +162,17 @@ function main(args) {
       return;
     }
     if (key === '_') {
+
+      if (_.contains(args[key], "es6")) {
+        /* Global Settings Object */
+        settings['template_type'] = "es6";
+      }
+
       scaffoldByArgs(_.first(args[key]));
+    }
+    if (key === 'ext') {
+      /* Global Settings Object */
+      settings['extension'] = args[key];
     }
     if (key === 'file') {
       var filename = args[key];
