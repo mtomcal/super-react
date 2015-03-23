@@ -166,7 +166,7 @@ function main(args) {
     if (key === '_') {
       var pos_args = args[key];
 
-      if (_.contains(pos_args[key], "es6")) {
+      if (_.contains(pos_args, "es6")) {
         /* Global Settings Object */
         settings['template_type'] = "es6";
       }
