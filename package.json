@@ -23,6 +23,6 @@
   "dependencies": {
     "bluebird": "^2.9.13",
     "cli-args": "^1.2.1",
-    "lodash": "^3.5.0"
+    "lodash": "4.x.x"
   }
 }
