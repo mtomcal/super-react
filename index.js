@@ -68,7 +68,12 @@ function outputReactClass(name, children, fpath) {
       //Write the component to file if it doesnt already exist
       return fs.writeFileAsync(path.join(fpath, name + "." + settings["extension"]), rendered, {flag: 'wx'});
     })
-    .caught(errorHandler);
+    .then(function () {
+      console.log("created: " + path.join(fpath, name + "." + settings["extension"]));
+    })
+    .caught(function () {
+      console.log("exists: " + path.join(fpath, name + "." + settings["extension"]));
+    });
 }
 
 function getLastDir(fpath) {
@@ -85,12 +90,20 @@ function addDirectoryToChildren(children, fpath) {
           });
       }
       return ["", child];
+    })
+    .filter(function (child) {
+      return _.last(child[1]) !== "";
     });
 }
 
 function outputDirectory(fpath) {
   //Create the output folder and if exists silently catch error
-  return fs.mkdirSync(fpath);
+  try {
+    fs.mkdirSync(fpath);
+    console.log("created: " + fpath);
+  } catch(err) {
+    console.log("exists: " + fpath);
+  }
 }
 
 /**
@@ -111,7 +124,7 @@ function recurseCreate(scaffold, key, fpath) {
     if (key.includes("/")) {
       fpath += key;
       outputDirectory(fpath);
-    } else {
+    } else if (key !== '') {
       outputReactClass(key, addDirectoryToChildren(scaffold[key], fpath), fpath);
     }
     if (children.length > 0) {
