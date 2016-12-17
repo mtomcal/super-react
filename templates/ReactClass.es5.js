@@ -1,21 +1,18 @@
 var React = require('react');
-<% children.forEach(function (item) { %>var <%= item %> = require('./<%= item %>.<%= ext %>');
+<% deps.forEach(function (dep, index) { %>var <%= names[index] %> = require('./<%= dep %><%= ext %>');
 <% }); %>
-
 var <%= name %> = React.createClass({
   mixins : [],
   propTypes: {
-
   },
   render: function() {
     var styles = {};
 
     return (
-      <div><% children.forEach(function (item) { %>
-        <<%= item %> /><% }); %>
+      <div><% names.forEach(function (name) { %>
+        <<%= name %> /><% }); %>
       </div>
     );
   }
-
 });
 module.exports = <%= name %>;

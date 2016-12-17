@@ -11,7 +11,7 @@ npm install -g super-react
 ##Usage
 
 ```
-super-react "[emmet_string]" [--file=<components_scaffold>.json] [--output=<path>] [--es6] [--ext=<custom_extension>]
+super-react "[emmet_string]" [--hybrid|--es5] [--ext=js]
 ```
 
 ##Scaffold Components From Emmet Syntax
@@ -21,36 +21,34 @@ This tool uses [Emmet](http://docs.emmet.io/abbreviations/syntax/) style syntax 
 ###Basic Example
 
 ```
-super-react "App>Description+ListContainer>List"
+super-react "App>components/Description+ListContainer>List"
 ```
-The ```>``` denotes a parent component and ```+``` denotes a sibling component.
+The `>` denotes a parent component, `+` denotes a sibling component, and `/` denotes a folder.
 
-The command results in a folder ```./components``` and has:
-
-```
-.
-..
-App.js
-Description.js
-List.js
-ListContainer.js
-```
-
-```App.js``` has the following contents:
+The command results in the following:
 
 ```
-var React = require('react');
-var Description = require('./Description.js');
-var ListContainer = require('./ListContainer.js');
+created: ./components/
+created: components/Description.js
+created: App.js
+created: components/List.js
+created: components/ListContainer.js
+```
 
+`App.js` has the following contents:
 
-var App = React.createClass({
-  mixins : [],
-  propTypes: {
+```javascript
+import React, {propTypes, Component} from 'react';
+import Description from './components/Description'
+import ListContainer from './components/ListContainer'
 
-  },
-  render: function() {
-    var styles = {};
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {};
+  }
+  render() {
+    let styles = {};
 
     return (
       <div>
@@ -59,19 +57,31 @@ var App = React.createClass({
       </div>
     );
   }
+}
 
-});
-module.exports = App;
+App.propTypes = {
+}
+
+export default App;
 ```
 
-###Complex Example
+###Hybrid Mode
 
 ```
-super-react "App>Description+ListContainer>List" --output=./my_components --ext=jsx --es6
+super-react "App>components/Description+ListContainer>List" --hybrid
 ```
-Creates components in ```./my_components``` with files with the extension jsx (i.e. ```App.jsx```) and a class with ES6 style JS in the following:
+
+Outputs the following ES6 createClass template.
 
 ```
+created: ./components/
+created: components/Description.js
+created: App.js
+created: components/List.js
+created: components/ListContainer.js
+```
+
+```javascript
 import React from 'react';
 import Description from './Description.jsx'
 import ListContainer from './ListContainer.jsx'
@@ -96,50 +106,92 @@ let App = React.createClass({
 });
 export default App;
 ```
-
-##Scaffold Components From JSON File
-
-Say we have a ```components.json``` file with the following contents:
+###ES5 Mode
 
 ```
-{
-  "App": {
-    "ListContainer": {
-      "AddItem":{},
-      "List":{}
-    }
+super-react "App>components/Description+ListContainer>List" --es5
+```
+
+Outputs the following ES5 createClass template.
+
+```
+created: ./components/
+created: components/Description.js
+created: App.js
+created: components/List.js
+created: components/ListContainer.js
+```
+
+```javascript
+var React = require('react');
+var Description = require('./components/Description');
+var ListContainer = require('./components/ListContainer');
+
+var App = React.createClass({
+  mixins : [],
+  propTypes: {
+  },
+  render: function() {
+    var styles = {};
+
+    return (
+      <div>
+        <Description />
+        <ListContainer />
+      </div>
+    );
   }
-}
+});
+module.exports = App;
 ```
 
-Lets run super-react with the file flag:
+###Custom Extension
 
 ```
-super-react --file=components.json --output=./my_components
+super-react "App>components/Description+ListContainer>List" --ext=jsx --es5
 ```
 
-We get a folder ```./my_components``` with the following:
+Outputs the following ES5 createClass template with jsx extensions.
 
 ```
-.
-..
-AddItem.js
-App.js
-List.js
-ListContainer.js
+created: ./components/
+created: App.jsx
+created: components/ListContainer.jsx
+created: components/Description.jsx
+created: components/List.jsx
 ```
 
-App has the contents you would expect from the previous section.
+```javascript
+var React = require('react');
+var Description = require('./components/Description.jsx');
+var ListContainer = require('./components/ListContainer.jsx');
+
+var App = React.createClass({
+  mixins : [],
+  propTypes: {
+  },
+  render: function() {
+    var styles = {};
+
+    return (
+      <div>
+        <Description />
+        <ListContainer />
+      </div>
+    );
+  }
+});
+module.exports = App;
+```
+
 
 ##Changelog
+* v0.9.0 Simplified API and output ES6 by default. Added folder scaffolding.
 * v0.2.0 Added --es6 and --ext flags
 
 ##Roadmap
-* v0.3.0 Add folder/directory scaffolding syntax in addition to React files
+* v1.0.0 N-depth nested folders rather than one nested folder per declaration.
 
 ##Contribute?
 
 I <3 Pull Requests, suggestions, and Issue reports.
-
-
-

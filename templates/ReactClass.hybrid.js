@@ -1,13 +1,11 @@
-import React, {propTypes, Component} from 'react';
+import React, {propTypes} from 'react';
 <% deps.forEach(function (dep, index) { %>import <%= names[index] %> from './<%= dep %><%= ext %>';
 <% }); %>
-class <%= name %> extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {};
-  }
+const <%= name %> = React.createClass({
+  propTypes: {
+  },
   render() {
-    let styles = {};
+    const styles = {};
 
     return (
       <div><% names.forEach(function (name) { %>
@@ -15,9 +13,6 @@ class <%= name %> extends Component {
       </div>
     );
   }
-}
-
-<%= name %>.propTypes = {
-}
+});
 
 export default <%= name %>;
