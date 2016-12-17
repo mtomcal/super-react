@@ -1,5 +1,5 @@
 var React = require('react');
-<% children.forEach(function (item) { %>var <%= item[1] %> = require('./<%= item[0] %><%= item[1] %>.<%= ext %>');
+<% deps.forEach(function (dep, index) { %>var <%= names[index] %> = require('./<%= dep %><%= ext %>');
 <% }); %>
 var <%= name %> = React.createClass({
   mixins : [],
@@ -9,8 +9,8 @@ var <%= name %> = React.createClass({
     var styles = {};
 
     return (
-      <div><% children.forEach(function (item) { %>
-        <<%= item[1] %> /><% }); %>
+      <div><% names.forEach(function (name) { %>
+        <<%= name %> /><% }); %>
       </div>
     );
   }

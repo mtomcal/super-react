@@ -1,5 +1,5 @@
 import React, {propTypes} from 'react';
-<% children.forEach(function (item) { %>import <%= item[1] %> from './<%= item[0] %><%= item[1] %>';
+<% deps.forEach(function (dep, index) { %>import <%= names[index] %> from './<%= dep %><%= ext %>';
 <% }); %>
 const <%= name %> = React.createClass({
   propTypes: {
@@ -8,8 +8,8 @@ const <%= name %> = React.createClass({
     const styles = {};
 
     return (
-      <div><% children.forEach(function (item) { %>
-        <<%= item[1] %> /><% }); %>
+      <div><% names.forEach(function (name) { %>
+        <<%= name %> /><% }); %>
       </div>
     );
   }

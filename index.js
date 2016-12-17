@@ -4,11 +4,11 @@
  *
  * https://github.com/mtomcal/super-react
  *
- * Opinionated Command Line Tool for Scaffolding out Nested React Components Into Files
+ * Opinionated Command Line Tool for Scaffolding out Nested React Components Into Files and Folders
  *
  * Usage:
  *
- * super-react "[string]" [--file=<components scaffold>.json] [--output=<path | "./components">]
+ * super-react "[string]" [--hybrid|--es5]
  */
 var Promise = require('Bluebird');
 
@@ -50,7 +50,7 @@ function outputReactClass(name, children, fpath) {
     if (ext === "js") {
       return "";
     } else {
-      return ext;
+      return "." + settings.extension;
     }
   }
 
@@ -60,9 +60,31 @@ function outputReactClass(name, children, fpath) {
       var compiled = _.template(contents);
 
       //Compile lodash template for React class
-      rendered = compiled({name: name, children: children, ext: extHelper(settings["extension"])});
+      var deps = children
+        .filter(function (child) {
+          return !_.isEmpty(child);
+        })
+        .map(function (child) {
+          if (_.isString(child)) {
+            return child;
+          }
+          if (_.isEmpty(child[0])) {
+            return child[1];
+          }
+          return child[0] + child[1];
+        });
+      var names = children
+        .filter(function (child) {
+          return !_.isEmpty(child);
+        })
+        .map(function (child) {
+          if (_.isString(child)) {
+            return child;
+          }
+          return child[1];
+        });
 
-
+      rendered = compiled({name: name, deps: deps, names: names, ext: extHelper(settings["extension"])});
     })
     .then(function () {
       //Write the component to file if it doesnt already exist
@@ -124,11 +146,12 @@ function recurseCreate(scaffold, key, fpath) {
     if (key.includes("/")) {
       fpath += key;
       outputDirectory(fpath);
-    } else if (key !== '') {
+    } else if (key !== '') { // Make sure key isn't empty because its a folder with empty children key
       outputReactClass(key, addDirectoryToChildren(scaffold[key], fpath), fpath);
     }
     if (children.length > 0) {
       children.forEach(function (child) {
+        // Recurse through children passing the fpath
         recurseCreate(scaffold[key], child, fpath);
       });
     }
@@ -159,6 +182,7 @@ function scaffoldByArgs(tree) {
       chunk = "";
       return;
     }
+    // If a slash at end of chunk then its a folder
     if (ch === '/') {
       cursor[chunk + '/'] = {};
       cursor = cursor[chunk + '/'];
