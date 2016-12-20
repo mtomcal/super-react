@@ -1,4 +1,4 @@
-import React, {propTypes, Component} from 'react';
+import React, {PropTypes, Component} from 'react';
 <% deps.forEach(function (dep, index) { %>import <%= names[index] %> from './<%= dep %><%= ext %>';
 <% }); %>
 class <%= name %> extends Component {

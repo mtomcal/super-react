@@ -1,4 +1,4 @@
-import React, {propTypes} from 'react';
+import React, {PropTypes} from 'react';
 <% deps.forEach(function (dep, index) { %>import <%= names[index] %> from './<%= dep %><%= ext %>';
 <% }); %>
 const <%= name %> = React.createClass({

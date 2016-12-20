@@ -38,7 +38,7 @@ created: components/ListContainer.js
 `App.js` has the following contents:
 
 ```javascript
-import React, {propTypes, Component} from 'react';
+import React, {PropTypes, Component} from 'react';
 import Description from './components/Description'
 import ListContainer from './components/ListContainer'
 
@@ -82,28 +82,25 @@ created: components/ListContainer.js
 ```
 
 ```javascript
-import React from 'react';
-import Description from './Description.jsx'
-import ListContainer from './ListContainer.jsx'
+import React, {PropTypes} from 'react';
+import Description from './components/Description';
+import ListContainer from './components/ListContainer';
 
-
-let App = React.createClass({
-  mixins : [],
+const App = React.createClass({
   propTypes: {
-
   },
   render() {
-    var styles = {};
+    const styles = {};
 
     return (
       <div>
-        <Description />
-        <ListContainer />
+          <Description />
+          <ListContainer />
       </div>
     );
   }
-
 });
+
 export default App;
 ```
 ###ES5 Mode
@@ -186,6 +183,7 @@ module.exports = App;
 
 
 ##Changelog
+* v0.9.1 Fix propTypes to PropTypes in import and fix documentation
 * v0.9.0 Simplified API and output ES6 by default. Added folder scaffolding.
 * v0.2.0 Added --es6 and --ext flags
 
