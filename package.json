@@ -1,6 +1,6 @@
 {
   "name": "super-react",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Opinionated Command Line Tool for Scaffolding out Nested React Components Into Files",
   "main": "index.js",
   "scripts": {
